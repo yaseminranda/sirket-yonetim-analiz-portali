@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     smtp_port: int = 587
     smtp_user: Optional[str] = None
     smtp_password: Optional[str] = None
+    smtp_from: Optional[str] = None
     login_verification_code_expire_minutes: int = 5
 
     sms_api_url: Optional[str] = None
