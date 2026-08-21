@@ -1,0 +1,30 @@
+services:
+  # NOT: Bu projede yerel bir PostgreSQL container'ı kullanılmıyor çünkü
+  # zaten çalışan bir Supabase (bulut) veritabanı var. Backend, .env
+  # dosyasındaki DATABASE_URL üzerinden doğrudan Supabase'e bağlanıyor.
+  # Eğer ileride yerel bir veritabanına geçmek isterseniz, buraya bir
+  # "db" servisi (postgres:16 imajı) eklemeniz yeterli olur.
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # .env dosyasındaki DATABASE_URL burada kullanılıyor (Supabase gibi dış bir
+      # PostgreSQL sunucusuna bağlanmak için). Yerel "db" container'ı kullanılmıyorsa
+      # bu satır .env'deki DATABASE_URL değerini olduğu gibi backend'e taşır.
+      DATABASE_URL: ${DATABASE_URL}
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    environment:
+      # Docker ağı içinde backend'e servis adıyla erişiliyor
+      BACKEND_URL: http://backend:8000
+    ports:
+      - "8501:8501"
+    depends_on:
+      - backend
