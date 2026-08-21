@@ -52,7 +52,7 @@ def send_payment_reminder_email(recipient_email: str, subject: str, body: str) -
 
     msg = EmailMessage()
     msg["Subject"] = subject
-    msg["From"] = settings.smtp_user
+    msg["From"] = settings.smtp_from or settings.smtp_user
     msg["To"] = recipient_email
     msg.set_content(body)
 
@@ -83,7 +83,7 @@ def send_security_email(recipient_email: str, subject: str, body: str) -> Tuple[
 
     msg = EmailMessage()
     msg["Subject"] = subject
-    msg["From"] = settings.smtp_user
+    msg["From"] = settings.smtp_from or settings.smtp_user
     msg["To"] = recipient_email
     msg.set_content(body)
 
@@ -107,7 +107,7 @@ def send_login_verification_code(recipient_email: str, code: str) -> Tuple[bool,
 
     msg = EmailMessage()
     msg["Subject"] = "Giriş Doğrulama Kodunuz"
-    msg["From"] = settings.smtp_user
+    msg["From"] = settings.smtp_from or settings.smtp_user
     msg["To"] = recipient_email
     msg.set_content(
         "Şirket Yönetim & Analiz Portalı'na giriş için doğrulama kodunuz:\n\n"
