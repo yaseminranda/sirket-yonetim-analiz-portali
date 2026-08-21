@@ -92,7 +92,7 @@ def api_get_raw(path: str, params: Optional[dict] = None):
         return None
 
 
-def api_post(path: str, json: Optional[dict] = None, timeout: int = 15) -> Optional[Any]:
+def api_post(path: str, json: Optional[dict] = None, timeout: int = 60) -> Optional[Any]:
     """Issue a POST request to the backend, handling auth/timeout errors and displaying failures via Streamlit."""
     try:
         resp = requests.post(f"{BACKEND_URL}{path}", json=json, headers=_headers(), timeout=timeout)
